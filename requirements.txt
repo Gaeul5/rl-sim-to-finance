@@ -5,7 +5,7 @@ shimmy==1.3.0        # gymnasium 0.29.x 호환 마지막 1.x — shimmy 2.x는 g
 tensorboard>=2.9.1   # SB3 학습 로그용 (extra 없이 명시적 설치)
 
 # Data
-yfinance==0.2.37
+yfinance>=0.2.50      # 0.2.37은 Yahoo Finance API 변경으로 다운로드 실패
 pandas==2.2.2
 numpy==1.26.4
 

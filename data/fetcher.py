@@ -5,12 +5,13 @@ from typing import Tuple
 
 
 def fetch_stock_data(ticker: str, start: str, end: str) -> pd.DataFrame:
-    """Download OHLCV data and return a clean DataFrame with Close/Volume."""
-    df = yf.download(ticker, start=start, end=end, progress=False, auto_adjust=True)
+    """yf.Ticker().history() 방식으로 OHLCV 수집 — yf.download()보다 API 변경에 강함."""
+    tk = yf.Ticker(ticker)
+    df = tk.history(start=start, end=end, auto_adjust=True)
     if df.empty:
-        raise ValueError(f"No data returned for ticker '{ticker}' ({start} ~ {end})")
+        raise ValueError(f"No data for '{ticker}' ({start}~{end}). 티커 확인 또는 잠시 후 재시도하세요.")
     df = df[["Close", "Volume"]].dropna()
-    df.index = pd.to_datetime(df.index)
+    df.index = pd.to_datetime(df.index).tz_localize(None)  # tz 제거로 downstream 호환
     return df
 
 
